@@ -7,6 +7,6 @@ package shoppingCartMVC;
 public interface CommandListener {
 
 public void UpdateView() throws Exception;
-public Object[] doAction(int actionCode, Object[] args) throws Exception;
+public Object[] doAction(ActionCode actionCode, Object[] args) throws Exception;
 
 }

@@ -65,7 +65,7 @@ public class DiscountDialog extends JDialog implements ActionListener {
 	    DiscountInput_rel.setPreferredSize(new Dimension(50, 25));
 	    
 	    //get values for an absolute and relative discount
-	    Object[] discounts = controller.doAction(6, null);
+	    Object[] discounts = controller.doAction(ActionCode.getDiscounts, null);
 	    
 	    DiscountInput_abs.setValue((double) discounts[0]);
 	    DiscountInput_rel.setValue((double) discounts[1]);
@@ -85,7 +85,7 @@ public class DiscountDialog extends JDialog implements ActionListener {
 	  	  
 	 try {
 	 // set new values for an absolute and relative discount
-		 controller.doAction(5, new Object[]{DiscountInput_abs.getValue(),DiscountInput_rel.getValue()});
+		 controller.doAction(ActionCode.setDiscounts, new Object[]{DiscountInput_abs.getValue(),DiscountInput_rel.getValue()});
 	} catch (Exception e1) {
 		
 		e1.printStackTrace();

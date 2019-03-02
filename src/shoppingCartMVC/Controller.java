@@ -1,7 +1,7 @@
 package shoppingCartMVC;
 import java.util.Hashtable;
 
-final class Controller implements CommandListener{
+public class Controller implements CommandListener{
 	private DataModel dataModel=new DataModel();
 	private static View view;
 	
@@ -14,7 +14,7 @@ final class Controller implements CommandListener{
 
 	}
 	
-	public Object[] doAction(int actionCode, Object[] args) throws Exception {
+	public Object[] doActionOld(int actionCode, Object[] args) throws Exception {
 		switch (actionCode) {
         case 0:  return(getProductInfobyId((int)args[0]));
 		case 1:  RemoveItemFromShoppingCart((int)args[0]);
@@ -28,6 +28,26 @@ final class Controller implements CommandListener{
         case 5:  setDiscounts((double)args[0],(double)args[1]);
         		 return(null);
         case 6:  return(getDiscounts());
+          
+        default: return null;
+		}		
+	
+	}
+	
+	public Object[] doAction(ActionCode actionCode, Object[] args) throws Exception {
+		switch (actionCode) {
+        case getProductInfobyId:  return(getProductInfobyId((int)args[0]));
+		case RemoveItemFromShoppingCart:  RemoveItemFromShoppingCart((int)args[0]);
+				 return(null);
+        case UpdateItemQuantity:  UpdateItemQty((int)args[0],(int)args[1]);
+                 return(null);
+        case getCalculation:  getCalculation();
+                 return(null);
+        case AddItemToShoppingCart:  AddItemToShoppingCart((int)args[0]);
+                 return(null);
+        case setDiscounts:  setDiscounts((double)args[0],(double)args[1]);
+        		 return(null);
+        case getDiscounts:  return(getDiscounts());
           
         default: return null;
 		}		

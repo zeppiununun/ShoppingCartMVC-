@@ -85,7 +85,7 @@ public class View {
 		for(int i=0; i<productIds.length; i++)
 		{
 			//productInfo= controller.getProductInfobyId((int)productIds[i]);
-			productInfo=controller.doAction(0, new Object[]{productIds[i]});
+			productInfo=controller.doAction(ActionCode.getProductInfobyId, new Object[]{productIds[i]});
 			addProduct((int)productIds[i],(String)productInfo[0],(String)productInfo[2],(double)productInfo[1]);
 		}
 		
@@ -106,7 +106,7 @@ public class View {
 		for(int i=0; i<shoppingCartItems.length; i++){
 			
 			//productInfo= controller.getProductInfobyId((int)shoppingCartItems[i][0]);
-			productInfo=controller.doAction(0, new Object[]{shoppingCartItems[i][0]});
+			productInfo=controller.doAction(ActionCode.getProductInfobyId, new Object[]{shoppingCartItems[i][0]});
 			
 			shoppingCartData[i][0]=i+1;//Position
 			shoppingCartData[i][1]=productInfo[0];//Produktname
@@ -151,7 +151,7 @@ public class View {
 		        Object prodId=(int)((DefaultTableModel)table.getModel()).getValueAt(row, 2);
 		        //int quantity=(int)((DefaultTableModel)table.getModel()).getValueAt(row, 4);
 		        try {
-					controller.doAction(1, new Object[] {prodId});
+					controller.doAction(ActionCode.RemoveItemFromShoppingCart, new Object[] {prodId});
 		        	
 				} catch (Exception e1) {
 						e1.printStackTrace();
@@ -172,7 +172,7 @@ public class View {
 		         
 		        try {
 		        	//update the quantity of an item
-		             controller.doAction(2, new Object[] {prodId,newval});
+		             controller.doAction(ActionCode.UpdateItemQuantity, new Object[] {prodId,newval});
 		         if ((int)newval<0) 
 		        	 controller.UpdateView();
 		         
@@ -195,7 +195,7 @@ public class View {
 		
 		cartTable.setFillsViewportHeight(true);
 		//computing the total amount
-		controller.doAction(3, null);
+		controller.doAction(ActionCode.getCalculation, null);
 		
 	}
 	
@@ -274,7 +274,7 @@ public class View {
 		{
 			try {
 			    int prodId = Integer.parseInt(addProd.getName());
-				controller.doAction(4,  new Object[]{(Object)prodId});
+				controller.doAction(ActionCode.AddItemToShoppingCart,  new Object[]{(Object)prodId});
 			} 
 			catch (NumberFormatException e) {
 						e.printStackTrace();
