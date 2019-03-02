@@ -1,6 +1,6 @@
 package shoppingCartMVC;
 /*
- * entry point
+ * the entry point
  */
 public class ShoppingCartApp {
 

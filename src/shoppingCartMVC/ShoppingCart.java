@@ -134,7 +134,7 @@ public class ShoppingCart {
 	/* returns the info about an item line 
 	 * @return Object[0] id of a product
 	 * @return Object[1] qty
-	 * @return Object[2] a total price per the line item
+	 * @return Object[2] the total price for the line item
 	*/
 	
 		public Object[] getLineItemInfo(int index) throws Exception

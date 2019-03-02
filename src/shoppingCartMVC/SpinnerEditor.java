@@ -4,10 +4,13 @@ import java.awt.event.*;
 import java.util.*;
 import javax.swing.*;
 
-
+/* provided by Jason, see https://stackoverflow.com/a/9042680
+ * SpinnerEditor for updating cells of the JTable 
+ */
 public class SpinnerEditor extends DefaultCellEditor
     {
-        JSpinner spinner;
+        private static final long serialVersionUID = 1L;
+		JSpinner spinner;
         JSpinner.DefaultEditor editor;
         JTextField textField;
         boolean valueSet;
@@ -20,9 +23,7 @@ public class SpinnerEditor extends DefaultCellEditor
             textField = editor.getTextField();
             textField.addFocusListener( new FocusListener() {
                 public void focusGained( FocusEvent fe ) {
-                	//System.err.println("Got focus");
-                    //textField.setSelectionStart(0);
-                    //textField.setSelectionEnd(1);
+                	
                     SwingUtilities.invokeLater( new Runnable() {
                         public void run() {
                             if ( valueSet ) {
@@ -57,8 +58,7 @@ public class SpinnerEditor extends DefaultCellEditor
         }
 
         public boolean isCellEditable( EventObject eo ) {
-            //System.err.println("isCellEditable");
-            if ( eo instanceof KeyEvent ) {
+             if ( eo instanceof KeyEvent ) {
                 KeyEvent ke = (KeyEvent)eo;
                 System.err.println("key event: "+ke.getKeyChar());
                 textField.setText(String.valueOf(ke.getKeyChar()));
@@ -84,7 +84,7 @@ public class SpinnerEditor extends DefaultCellEditor
                 spinner.commitEdit();
             } catch ( java.text.ParseException e ) {
                 JOptionPane.showMessageDialog(null,
-                    "Invalid value, discarding.");
+                    "Falsche Eingabe, wird ignoriert.");
             }
             return super.stopCellEditing();
         }

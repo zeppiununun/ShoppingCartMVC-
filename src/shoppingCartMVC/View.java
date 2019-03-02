@@ -22,33 +22,42 @@ import java.text.DecimalFormat;
 import java.util.Hashtable;
 import java.awt.event.ActionEvent;
 
+/*it is the main class for GUI
+ * 
+ */
 public class View {
+	//interacting with the Controller via the CommandListener interface
 	private  CommandListener controller;
 	final JFrame guiFrame = new JFrame();
+	//JTables for the shopping cart and its sum, respectively
 	public JTable cartTable, totalTable;
+	//Panel with the discount settings button 
 	final JPanel DiscountPanel=new JPanel();
+	//Panel for the shopping Cart  
 	final JPanel SCPanel=new JPanel();
+	//Panel for the total sum (contained in SCPanel)
 	final JPanel TotalPanel=new JPanel();
+	//Panel for showing the products
 	final JPanel ProduktPanel = new JPanel();
+	//a scrollpane for the products
 	final JScrollPane ScrolledProduktPanel = new JScrollPane(ProduktPanel);
 	final JButton DiscounBtn=new JButton("Rabatt einstellen");
+	// default size of the guiFrame
 	final int windowWidth=700;
 	final int windowHeight=600;
 		
-
+	/* initially initializes and aligns widgets
+	 * 
+	 */
 	public View(Controller controller, Object[] productIds) throws Exception
 	{
 		setController(controller);
 					
 		//make sure the program exits when the frame closes
 		guiFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		//guiFrame.setJMenuBar(menuBar);
-		//DiscountPanel.setLayout(new BoxLayout(DiscountPanel,BoxLayout.X_AXIS));
+		
 		DiscountPanel.setAlignmentX(0);
 		DiscountPanel.setLayout(new GridLayout(0,4));
-		//DiscounBtn.setAlignmentX(Component.RIGHT_ALIGNMENT);
-	   //
-	    // DiscountPanel.setAlignmentY(1);
 		DiscountPanel.add(Box.createHorizontalGlue());
 		DiscountPanel.add(Box.createHorizontalGlue());
 		DiscountPanel.add(Box.createHorizontalGlue());
@@ -56,7 +65,7 @@ public class View {
 	    DiscountPanel.setVisible(true);	
 	    DiscounBtn.addActionListener(new ActionListener()
 		{
-		//Adding an item
+		//Binding the discount button to the discount settings dialog 
 		public void actionPerformed(ActionEvent event)
 		{
 			showDiscountDialog();
@@ -64,8 +73,7 @@ public class View {
 		}});
 	    
 		SCPanel.setLayout(new BoxLayout(SCPanel, BoxLayout.Y_AXIS));
-		
-		guiFrame.setTitle("Einkaufskorb");
+		guiFrame.setTitle("Einkaufskorb Demo");
 		guiFrame.setSize(windowWidth,windowHeight);
 		//This will center the JFrame in the middle of the screen
 		guiFrame.setLocationRelativeTo(null);
@@ -75,23 +83,23 @@ public class View {
 		ScrolledProduktPanel.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		ScrolledProduktPanel.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
 		ScrolledProduktPanel.getViewport().setView(ProduktPanel);
-		//ScrolledCartPanel.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-		//ScrolledCartPanel.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-		//ScrolledProduktPanel.getViewport().setView(SCPanel);
 		guiFrame.add(ScrolledProduktPanel,BorderLayout.SOUTH);
-		//guiFrame.add(ScrolledCartPanel,BorderLayout.CENTER);
 		
+		//adding product in the Data Model to the GUI
 		Object[] productInfo;
 		for(int i=0; i<productIds.length; i++)
 		{
-			//productInfo= controller.getProductInfobyId((int)productIds[i]);
 			productInfo=controller.doAction(ActionCode.getProductInfobyId, new Object[]{productIds[i]});
 			addProduct((int)productIds[i],(String)productInfo[0],(String)productInfo[2],(double)productInfo[1]);
 		}
 		
 		guiFrame.setVisible(true);
 	}
-
+	
+	
+	/* updating GUI 
+	 * 
+	 */
 	public void UpdateView(Object[][] shoppingCartItems) throws Exception
 	{
 		
@@ -117,17 +125,18 @@ public class View {
 			shoppingCartData[i][6]="Komplett entfernen";
 			
 		}
-					
+		//refreshing the shopping cart representation		
 		addShoppingCart(shoppingCartData);	
 				
 	}
 	
-	/*
+	/* renders the shopping cart
 	 * 
 	 */
 	public void addShoppingCart(Object[][] data) throws Exception{
-		
+		//table headers
 		String[] columnNames = {"Pos", "Artikel","id", "Preis", "Menge", "Gesamt", ""};
+		//colum widths
 		int[] colWidths= {30, 200, 1, 90, 60, 120, 190};
 		DefaultTableModel model = new DefaultTableModel(data, columnNames);
 		cartTable = new JTable(model);
@@ -137,9 +146,10 @@ public class View {
 		    }
 		Class<?> col_class = cartTable.getColumnClass(0);
 		cartTable.setDefaultEditor(col_class, null);
+		//setting Spinner for changing the number of items in the shopping cart
 		cartTable.getColumnModel().getColumn(4).setCellEditor(new SpinnerEditor());
 	     
-		
+		//action handler for the remove item button
 		Action delete = new AbstractAction()
 		{
 		    private static final long serialVersionUID = 1L;
@@ -149,7 +159,7 @@ public class View {
 		        JTable table = (JTable)e.getSource();
 		        int row = Integer.valueOf(e.getActionCommand());
 		        Object prodId=(int)((DefaultTableModel)table.getModel()).getValueAt(row, 2);
-		        //int quantity=(int)((DefaultTableModel)table.getModel()).getValueAt(row, 4);
+		        
 		        try {
 					controller.doAction(ActionCode.RemoveItemFromShoppingCart, new Object[] {prodId});
 		        	
@@ -159,9 +169,11 @@ public class View {
 		        		
 		    }
 		};
+		//column of delete buttons
 		ButtonColumn buttonColumn = new ButtonColumn(cartTable,delete, columnNames.length-1);
 		cartTable.removeColumn(cartTable.getColumnModel().getColumn(2));
 		
+		//setting event handler for the case the table is changed
 		cartTable.getModel().addTableModelListener(new TableModelListener() {
 
 		      public void tableChanged(TableModelEvent e) {
@@ -194,10 +206,15 @@ public class View {
 		SCPanel.setVisible(true);
 		
 		cartTable.setFillsViewportHeight(true);
-		//computing the total amount
+		
+		//computing the total sum
 		controller.doAction(ActionCode.getCalculation, null);
 		
 	}
+	
+	/*rendering the total sum table
+	 * Hashtable contains the calculation results from Data Model 
+	 */
 	
 	public void addTotal(Hashtable<String, Double> total){
 		
@@ -215,15 +232,17 @@ public class View {
 		DecimalFormat decFormat2 = new DecimalFormat("#0.00");
 		
 		Object[][] data = new Object[][]{{"Summe",decFormat2.format(total.get("brutto"))+"€"},{"-Rabatt " + decFormat1.format(total.get("discount_rel")) + "%",decFormat2.format(total.get("discount_rel_abs"))+"€"},{"-Rabatt absolut",decFormat2.format(total.get("discount_abs"))+"€"},{"Endbetrag",decFormat2.format(total.get("netto"))+"€"}};
+		//large font for the total sum
 		TableCellRenderer bigRenderer = new CustomTableRendererTotal();
+		//bold font
 		TableCellRenderer boldRenderer = new CustomTableRendererBold();
 		DefaultTableModel model = new DefaultTableModel(data,columnNames);
 		
-		// the subclass of JTable for rendering "Endbetrag"
+		// the subclass of JTable for rendering the "Endbetrag"
 		totalTable = new JTable(model){
 		 	private static final long serialVersionUID = 1L;
 
-			public TableCellRenderer getCellRenderer(int row, int column) {
+		 	public TableCellRenderer getCellRenderer(int row, int column) {
 		        if ((row == 3)&&(column==1)) 
 		            return bigRenderer;
 		        	
@@ -233,11 +252,9 @@ public class View {
 		        return super.getCellRenderer(row, column);
 		    }
 		};
-
-		//Font font = totalTable.getFont();
-		//totalTable.setFont(font.deriveFont(Font.BOLD, 12));
 	
 		Class<?> col_class = totalTable.getColumnClass(0);
+		//setting a total sum table readonly
 		totalTable.setDefaultEditor(col_class, null);
 		for (int i = 0; i < columnNames.length; i++) {
 			totalTable.getColumnModel().getColumn(i).setPreferredWidth(colWidths[i]);
@@ -251,10 +268,12 @@ public class View {
 		SCPanel.setVisible(true);
 		TotalPanel.setVisible(true);
 		totalTable.setFillsViewportHeight(true);
-		
-		
+			
 	}
 	
+	/*renders the products from the Data Model
+	 * 
+	 */
 	
 	public void addProduct(int Id, String name, String desc, double price)
 	{   
@@ -267,6 +286,7 @@ public class View {
 		JLabel nameLbl = new JLabel(name);
 		JLabel descLbl = new JLabel(desc);
 		JLabel priceLbl = new JLabel("Preis:" + decFormat.format(price)+"€");
+		//event handler for the Add product button 
 		addProd.addActionListener(new ActionListener()
 		{
 		//Adding an item
@@ -290,15 +310,16 @@ public class View {
 		ProduktPanel.add(itemPanel);
 		
 	}
-
-	public void showDiscountDialog()
-	{ //guiFrame,"Rabatt einstellen", true)
+	
+	/*discount settings Dialog
+	 *
+	 */
+	public void showDiscountDialog(){
 		DiscountDialog configFrame;
 		try {
 			configFrame = new DiscountDialog(guiFrame,controller);
 			configFrame.setTitle("Rabatt einstellen");
 			configFrame.setModal(true);
-			//configFrame.setSize(230,75);
 			configFrame.setLocationRelativeTo(guiFrame);
 			configFrame.setVisible(true);
 		} catch (Exception e) {
@@ -307,6 +328,9 @@ public class View {
 			
 	}
 	
+	/*
+	 * Setter/getter 
+	 */
 	public CommandListener getController() {
 		return controller;
 	}

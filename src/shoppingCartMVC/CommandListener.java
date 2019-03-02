@@ -1,12 +1,12 @@
 package shoppingCartMVC;
 
-/*an interface of the Controller class
+/*the interface of the Controller class
 * doAction implementation can be extended
  */
 
 public interface CommandListener {
 
-public void UpdateView() throws Exception;
-public Object[] doAction(ActionCode actionCode, Object[] args) throws Exception;
-
+	public void UpdateView() throws Exception;
+	
+	public Object[] doAction(ActionCode actionCode, Object[] args) throws Exception;
 }

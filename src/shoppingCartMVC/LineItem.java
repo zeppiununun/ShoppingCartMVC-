@@ -1,6 +1,6 @@
 package shoppingCartMVC;
-/* represents Lineitem in the shopping cart 
- * 
+/* represents Lineitem in the shopping cart, 
+ * i.e. a product with quantity
  */
 public class LineItem {
 private Product p;
