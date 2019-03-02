@@ -95,8 +95,7 @@ public class View {
 		
 		guiFrame.setVisible(true);
 	}
-	
-	
+		
 	/* updating GUI 
 	 * 
 	 */
