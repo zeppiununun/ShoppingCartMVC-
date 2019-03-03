@@ -45,8 +45,7 @@ import java.util.Hashtable;
         case getDiscounts:  return(getDiscounts());
           
         default: return null;
-		}		
-	
+		}	
 	}
 	/* Retrieves the information about a product by its id
 	 *  id is a unique identifier of a product. It is stored in
