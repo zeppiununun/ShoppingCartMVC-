@@ -49,7 +49,7 @@ public class View {
 	/* initially initializes and aligns widgets
 	 * 
 	 */
-	public View(Controller controller, Object[] productIds) throws Exception
+	public View(CommandListener controller, Object[] productIds) throws Exception
 	{
 		setController(controller);
 					
@@ -73,7 +73,7 @@ public class View {
 		}});
 	    
 		SCPanel.setLayout(new BoxLayout(SCPanel, BoxLayout.Y_AXIS));
-		guiFrame.setTitle("Einkaufskorb Demo");
+		guiFrame.setTitle("Warenkorb Demo");
 		guiFrame.setSize(windowWidth,windowHeight);
 		//This will center the JFrame in the middle of the screen
 		guiFrame.setLocationRelativeTo(null);
@@ -85,7 +85,7 @@ public class View {
 		ScrolledProduktPanel.getViewport().setView(ProduktPanel);
 		guiFrame.add(ScrolledProduktPanel,BorderLayout.SOUTH);
 		
-		//adding product in the Data Model to the GUI
+		//adding product ifrom the Data Model to the GUI
 		Object[] productInfo;
 		for(int i=0; i<productIds.length; i++)
 		{
@@ -279,7 +279,7 @@ public class View {
 		DecimalFormat decFormat = new DecimalFormat("#0.00");
 		JPanel itemPanel= new JPanel();
 		itemPanel.setLayout(new BoxLayout(itemPanel, BoxLayout.Y_AXIS));
-		JButton addProd = new JButton( "Zum Einkaufskorb!");
+		JButton addProd = new JButton( "Zum Warenkorb!");
 		addProd.setBackground(Color.green);
 		addProd.setName(Integer.toString(Id));
 		JLabel nameLbl = new JLabel(name);
@@ -334,7 +334,7 @@ public class View {
 		return controller;
 	}
 
-	public void setController(Controller controller) {
+	public void setController(CommandListener controller) {
 		this.controller = controller;
 	}
 }

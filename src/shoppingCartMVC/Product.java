@@ -3,7 +3,7 @@ package shoppingCartMVC;
 /*a minimal class modelling the shop items 
  * kept as small as possible
  * may be extended with some other info as pictures of products
- * MwSt classes, classifiers, etc.
+ * VAT(MwSt) rate groups, classifiers, etc.
  */
 
 public class Product {

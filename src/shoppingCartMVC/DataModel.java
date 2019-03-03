@@ -67,7 +67,7 @@ public int getProductCollectionSize() {
 }
 
 //returns the number of products in the shopping card
-public int getShopptingCartSize() {
+public int getShoppingCartSize() {
 	return(productList.size());
 }
 

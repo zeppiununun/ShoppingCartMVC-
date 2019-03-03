@@ -33,15 +33,15 @@ import java.util.Hashtable;
 		switch (actionCode) {
         case getProductInfobyId:  return(getProductInfobyId((int)args[0]));
 		case RemoveItemFromShoppingCart:  RemoveItemFromShoppingCart((int)args[0]);
-				 return(null);
+				 return null;
         case UpdateItemQuantity:  UpdateItemQty((int)args[0],(int)args[1]);
-                 return(null);
+                 return null;
         case getCalculation:  getCalculation();
-                 return(null);
+                 return null;
         case AddItemToShoppingCart:  AddItemToShoppingCart((int)args[0]);
-                 return(null);
+                 return null;
         case setDiscounts:  setDiscounts((double)args[0],(double)args[1]);
-        		 return(null);
+        		 return null;
         case getDiscounts:  return(getDiscounts());
           
         default: return null;

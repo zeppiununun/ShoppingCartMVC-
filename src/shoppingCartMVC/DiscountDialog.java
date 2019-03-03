@@ -17,14 +17,13 @@ import javax.swing.text.NumberFormatter;
 public class DiscountDialog extends JDialog implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	final JButton confirmBtn=new JButton("OK");
-	JFormattedTextField DiscountInput_rel;
-	JFormattedTextField DiscountInput_abs;
+	JFormattedTextField DiscountInput_rel,DiscountInput_abs;
 	CommandListener controller;
 	final int windowWidth=230;
 	final int windowHeight=75;
 
-  public DiscountDialog (JFrame frame, CommandListener controller) throws Exception {
-	    super(frame);
+  public DiscountDialog (JFrame parent, CommandListener controller) throws Exception {
+	    super(parent);
 	    this.controller=controller;
 	  	confirmBtn.addActionListener(this);
 	  	setSize(windowWidth,windowHeight);
