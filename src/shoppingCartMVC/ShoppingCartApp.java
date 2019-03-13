@@ -9,8 +9,8 @@ public class ShoppingCartApp {
 		Controller controller=new Controller();
 				
 		try {
-		controller.InitializeView();
-		controller.UpdateView();
+		controller.initializeView();
+		controller.updateView();
 			}
 		catch(Exception e) {
 			System.out.println(e.getMessage());
